@@ -1,10 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:tiktok_clone_2023/threads/activity_screen.dart';
-import 'package:tiktok_clone_2023/threads/main_navigation_screen.dart';
-import 'package:tiktok_clone_2023/threads/privacy_screen.dart';
-import 'package:tiktok_clone_2023/threads/search_screen.dart';
-import 'package:tiktok_clone_2023/threads/settings_screen.dart';
-import 'package:tiktok_clone_2023/threads/user_profile_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/main_navigation_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/privacy_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/settings_screen.dart';
 
 final router = GoRouter(
   routes: [

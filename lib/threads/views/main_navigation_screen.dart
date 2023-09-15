@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
-import 'package:tiktok_clone_2023/threads/user_profile_screen.dart';
-import 'package:tiktok_clone_2023/threads/activity_screen.dart';
-import 'package:tiktok_clone_2023/threads/home_screen.dart';
-import 'package:tiktok_clone_2023/threads/nav_tab.dart';
-import 'package:tiktok_clone_2023/threads/post_screen.dart';
-import 'package:tiktok_clone_2023/threads/search_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/user_profile_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/activity_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/home_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/widgets/nav_tab.dart';
+import 'package:tiktok_clone_2023/threads/views/post_screen.dart';
+import 'package:tiktok_clone_2023/threads/views/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   final String tab;

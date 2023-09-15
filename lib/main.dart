@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
-import 'package:tiktok_clone_2023/threads/main_navigation_screen.dart';
-import 'package:tiktok_clone_2023/threads/router.dart';
+import 'package:tiktok_clone_2023/threads/repositories/setting_repository.dart';
+import 'package:tiktok_clone_2023/router.dart';
+import 'package:tiktok_clone_2023/threads/view_models/setting_view_model.dart';
 
-void main() {
-  runApp(const TikTokApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPreferences = await SharedPreferences.getInstance();
+  final repository = SettingRepository(sharedPreferences);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => SettingViewModel(repository),
+        )
+      ],
+      child: const ThreadsApp(),
+    ),
+  );
 }
 
-class TikTokApp extends StatelessWidget {
-  const TikTokApp({super.key});
+class ThreadsApp extends StatelessWidget {
+  const ThreadsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      title: 'Flutter 10w study',
+      title: 'Flutter_Threads',
+      themeMode: context.watch<SettingViewModel>().darkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,

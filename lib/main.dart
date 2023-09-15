@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
 import 'package:tiktok_clone_2023/threads/repositories/setting_repository.dart';
@@ -13,26 +12,29 @@ void main() async {
   final repository = SettingRepository(sharedPreferences);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => SettingViewModel(repository),
-        )
+    ProviderScope(
+      overrides: [
+        settingProvider.overrideWith(() => SettingViewModel(repository)),
       ],
       child: const ThreadsApp(),
     ),
   );
 }
 
-class ThreadsApp extends StatelessWidget {
+class ThreadsApp extends ConsumerStatefulWidget {
   const ThreadsApp({super.key});
 
+  @override
+  ThreadsAppState createState() => ThreadsAppState();
+}
+
+class ThreadsAppState extends ConsumerState<ThreadsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
       title: 'Flutter_Threads',
-      themeMode: context.watch<SettingViewModel>().darkMode
+      themeMode: ref.watch(settingProvider).darkMode
           ? ThemeMode.dark
           : ThemeMode.light,
       theme: ThemeData(

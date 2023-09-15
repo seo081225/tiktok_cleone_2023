@@ -1,24 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone_2023/constants/gaps.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
-import 'package:tiktok_clone_2023/threads/views/privacy_screen.dart';
 import 'package:tiktok_clone_2023/threads/view_models/setting_view_model.dart';
+import 'package:tiktok_clone_2023/threads/views/privacy_screen.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   static const routeURL = "setting";
   static const routeName = "setting";
 
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends ConsumerState<SettingsScreen>
+    with SingleTickerProviderStateMixin {
   void _onTap() {
     context.pushNamed(PrivacyScreen.routeName);
   }
@@ -54,9 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            value: context.watch<SettingViewModel>().darkMode,
+            value: ref.watch(settingProvider).darkMode,
             onChanged: (value) =>
-                context.read<SettingViewModel>().setDarkMode(value),
+                ref.read(settingProvider.notifier).setDarkMode(value),
             title: const Text("Dark mode"),
           ),
           const ListTile(

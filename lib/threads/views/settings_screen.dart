@@ -5,11 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone_2023/constants/gaps.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
+import 'package:tiktok_clone_2023/threads/repositories/authentication_repository.dart';
 import 'package:tiktok_clone_2023/threads/view_models/setting_view_model.dart';
 import 'package:tiktok_clone_2023/threads/views/privacy_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
-  static const routeURL = "setting";
+  static const routeURL = "/setting";
   static const routeName = "setting";
 
   const SettingsScreen({super.key});
@@ -18,10 +19,41 @@ class SettingsScreen extends ConsumerStatefulWidget {
   SettingsScreenState createState() => SettingsScreenState();
 }
 
-class SettingsScreenState extends ConsumerState<SettingsScreen>
-    with SingleTickerProviderStateMixin {
+class SettingsScreenState extends ConsumerState<SettingsScreen> {
   void _onTap() {
     context.pushNamed(PrivacyScreen.routeName);
+  }
+
+  void _showAlertDialog(BuildContext context) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: const Text("Log out"),
+        content: const Text("Are you sure want to log out?"),
+        actions: <CupertinoDialogAction>[
+          CupertinoDialogAction(
+            /// This parameter indicates this action is the default,
+            /// and turns the action's text to bold text.
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          CupertinoDialogAction(
+            /// This parameter indicates the action would perform
+            /// a destructive action such as deletion, and turns
+            /// the action's text color to red.
+            isDestructiveAction: true,
+            onPressed: () {
+              ref.read(authRepo).signOut();
+              context.go("/login");
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -133,35 +165,4 @@ class SettingsScreenState extends ConsumerState<SettingsScreen>
       ),
     );
   }
-}
-
-void _showAlertDialog(BuildContext context) {
-  showCupertinoModalPopup<void>(
-    context: context,
-    builder: (BuildContext context) => CupertinoAlertDialog(
-      title: const Text("Log out"),
-      content: const Text("Are you sure want to log out?"),
-      actions: <CupertinoDialogAction>[
-        CupertinoDialogAction(
-          /// This parameter indicates this action is the default,
-          /// and turns the action's text to bold text.
-          isDefaultAction: true,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('No'),
-        ),
-        CupertinoDialogAction(
-          /// This parameter indicates the action would perform
-          /// a destructive action such as deletion, and turns
-          /// the action's text color to red.
-          isDestructiveAction: true,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Yes'),
-        ),
-      ],
-    ),
-  );
 }

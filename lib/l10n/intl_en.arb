@@ -1,1 +1,5 @@
-{}
+{
+  "signUpTitle": "Sign up for {nameOfTheApp}",
+  "alreadyHaveAnAccount": "Already have an account?",
+  "logIn": "Log in Threads."
+}

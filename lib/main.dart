@@ -1,13 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone_2023/constants/sizes.dart';
-import 'package:tiktok_clone_2023/threads/repositories/setting_repository.dart';
+import 'package:tiktok_clone_2023/firebase_options.dart';
+import 'package:tiktok_clone_2023/generated/l10n.dart';
 import 'package:tiktok_clone_2023/router.dart';
+import 'package:tiktok_clone_2023/threads/repositories/setting_repository.dart';
 import 'package:tiktok_clone_2023/threads/view_models/setting_view_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   final sharedPreferences = await SharedPreferences.getInstance();
   final repository = SettingRepository(sharedPreferences);
 
@@ -32,8 +41,17 @@ class ThreadsAppState extends ConsumerState<ThreadsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       title: 'Flutter_Threads',
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+      ],
       themeMode: ref.watch(settingProvider).darkMode
           ? ThemeMode.dark
           : ThemeMode.light,

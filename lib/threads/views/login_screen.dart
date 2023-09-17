@@ -22,7 +22,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Map<String, String> formData = {};
 
   void onSignUpTap(BuildContext context) {
-    context.pop();
+    context.go("/");
   }
 
   void _onSubmitTap() {
